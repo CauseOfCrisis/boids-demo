@@ -125,19 +125,19 @@ const Boids = (props) => {
         if (steerMag > maxForce) {
           dirAvg.normalize().multiplyScalar(maxForce);
         }
-        accl.add(dirAvg.multiplyScalar(.8));
+        accl.add(dirAvg.multiplyScalar(0.8));
       }
 
       //* SEPARATION
       total = 0;
       let steering = new THREE.Vector3(0, 0, 0);
       for (let j = 0; j < props.numBoids; j++) {
-        const dist = pos.distanceTo(components.position[j])
+        const dist = pos.distanceTo(components.position[j]);
         if (i != j && dist <= 8) {
-          let diff = pos.clone().sub(components.position[j])
-          diff.divideScalar(dist * dist)
+          let diff = pos.clone().sub(components.position[j]);
+          diff.divideScalar(dist * dist);
           steering.add(diff);
-          if (diff.x == Infinity || diff == -Infinity) console.log(diff)
+          if (diff.x == Infinity || diff == -Infinity) console.log(diff);
           // The only way for diff to equal infinity is if it's being divided by 0. How the fuck is that even possible in my code?
           total++;
         }
@@ -148,12 +148,12 @@ const Boids = (props) => {
         steering.normalize().multiplyScalar(maxVelocity);
         steering.sub(vel);
         steering.clampLength(0, maxForce);
-        accl.add(steering.multiplyScalar(.75));
+        accl.add(steering.multiplyScalar(0.75));
       }
 
       // //* COHESION
       total = 0;
-      steering = new Vector3(0, 0, 0)
+      steering = new Vector3(0, 0, 0);
       for (let j = 0; j < props.numBoids; j++) {
         let diff = components.position[j].clone().sub(pos);
         let dist = Math.sqrt(diff.dot(diff));
@@ -166,17 +166,17 @@ const Boids = (props) => {
       if (total > 0) {
         steering.divideScalar(total);
         steering.sub(pos);
-        steering.normalize().multiplyScalar(maxVelocity)
+        steering.normalize().multiplyScalar(maxVelocity);
         steering.sub(vel);
         steering.clampLength(0, maxForce);
-        accl.add(steering.multiplyScalar(.6));
+        accl.add(steering.multiplyScalar(0.6));
       }
 
       //* TRANSLATION
       vel
-        .add(accl.multiplyScalar(deltaSecs))  //! Acceleration is never NaN, but velocity is? So the problem is here?
-        .clampLength(minVelocity, maxVelocity); //! They don't disappear until I increment velocity, so I'm doing something wrong here?
-        //! Acceleration is equaling NaN, which is then fucking up velocity. Makes sense.
+        .add(accl.multiplyScalar(deltaSecs))
+        .clampLength(minVelocity, maxVelocity);
+
       pos.add(vel.clone().multiplyScalar(deltaSecs));
 
       //X-Constraint
