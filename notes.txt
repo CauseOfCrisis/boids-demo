@@ -1,1 +1,85 @@
-Watch Code Adventures and Pray
+Constructor args are passed in an ordered array to the args attribute.
+Props set the property of the same name to the value passed.
+
+
+RESEARCH:
+
+How do I make a bounding box?
+How do I make a box transparent but only highlight the edges?
+How do I access or create a fixed physics loop?
+How do I raycast?
+What is a compute shader, how do I write one?
+
+Further reading:
+
+How do raycasts actually work? What is an octree?
+What does the GPU do, how does it work?
+
+
+Boids Rules:
+
+-Avoid hitting other boids
+-Fly Towards the center of boids
+
+My Boids model:
+
+-A class will keep track of the boids system. It has a component property.
+-The component property contains all of the active boids and the bounding box.
+-Component also contains the grid.
+
+So what properties will the class have?
+
+-active
+-component
+
+Ideally you would be interracting with a component rather than a class which holds a component.
+
+To-Do:
+-Learn Classes
+-Run through React docs
+-After those two are done, how can I represent the boids system as a component? useState?
+-Look for next js state management solutions. Do they have something native?
+
+
+How does this system work?
+
+-Maybe I don't want boids to be unique components. This is because
+they would all then need unique state.
+-This is best for an ECS architecture imo. Or at least a data-drive approach. All of the
+boids state is abstracted to shallow arrays
+-Only boids groups in the same scene need to be aware of each other. For my purposes
+I will just make them of the same group, since you should only ever need one per scene.
+-A physics loop operates on a fixed frames per sec. It iterates over all of the active boids
+in the scene, and updates them according to the system.
+
+BOIDS system loop:
+-Steer away from nearby boids within view angle and radius of vision
+-Steer to move in the same direction as nearby boids
+-Steer towards the center of nearby boids
+-Teleport to opposite side when passing an axis
+
+So I need a way to group boids into one component.
+
+
+
+I need an asynchronous function that runs on a fixed timestep.
+
+
+
+Promises!
+
+Promises represent completion or failure of an asynchronous operation.
+.then returns a promise... why?
+
+I can set .quaternion
+or .rotation (euler)
+
+
+LINEAR ALGEBRA NOTES:
+-What are euler angles? How are they transformed?
+-What are imaginary numbers? How are they useful?
+-What are quaternions? How are they transformed?
+-What is a rotation matrix? (Probably three vectors which each describe the direction of an axis)
+-How can I describe an object pointing towards a direction vector with Euler angles? As a quaternion? (Top will point perpendicular)
+-How tf is the up attribute of Object3d used
+
